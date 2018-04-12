@@ -4,3 +4,11 @@
 	margin-right: auto;
 	border-style: solid;
 }
+
+#todo-header {
+	text-align: center;
+}
+
+#task-1 {
+	/*display: inline-block;*/
+}
