@@ -25,9 +25,8 @@ function renderList() {
 		// 			<span id="task1-name">Get Groceries</span>
 		// 	</div>
 		var opening_div = `<div id="task${i}"/>`;
-		var checkbox = `<input type="checkbox" id="task${i}-status"/>`;
-		var delete_button = `<button onClick=
-		"deleteButtonClicked(this.id)" class="delete-task" id="task${i}-delete">x</button>`;
+		var checkbox = `<input onClick="toggleCompletion(this.id)" type="checkbox" id="task${i}-status"/>`;
+		var delete_button = `<button onClick="deleteButtonClicked(this.id)" class="delete-task" id="task${i}-delete">x</button>`;
 		var task = `<span id="task${i}-name">${task_name}</span>`;
 		var closing_div = `</div>`;
 
@@ -36,28 +35,6 @@ function renderList() {
 		document.getElementById('task-list').innerHTML += element;
 	}
 
-	// attachDeletionListeners();
-}
-
-function attachDeletionListeners() {
-	//get all delete buttons
-	var delete_buttons = document.getElementsByClassName("delete-task");
-
-	var button_id, task_id;
-
-	//attach event listeners to each button
-	for (var i=0; i< delete_buttons.length; i++) {
-		//get task name's id from button id
-		button_id = delete_buttons[i].id;
-
-		//task_id = 'task#-' + name
-		task_name_id = button_id.slice(0, button_id.length-6) + 'name'
-
-		console.log(task_name_id)
-
-		//add event listener to button
-		document.getElementById(button_id).addEventListener("click", deleteButtonClicked(task_name_id));
-	}
 }
 
 function deleteButtonClicked(button_id) {
@@ -74,6 +51,24 @@ function deleteButtonClicked(button_id) {
 	tasks.splice(task_index, 1);
 
 	renderList();
+}
+
+function toggleCompletion(checkbox_id) {
+	//Get Task's ID
+	var task_name_id = checkbox_id.slice(0, checkbox_id.length-6) + 'name';
+
+	//Get Task Element
+	var task = document.getElementById(task_name_id);
+
+	//Check if struck through
+	var is_struck = (task.style.getPropertyValue("text-decoration") == "line-through");
+
+	if (is_struck) {
+		task.style.removeProperty("text-decoration");
+	} else {
+		task.style.setProperty("text-decoration", "line-through");	
+	}
+
 }
 
 //Run JS code after HTML elements have rendered
